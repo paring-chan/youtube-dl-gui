@@ -7,11 +7,11 @@ function App() {
     <>
       {global.process.platform === 'darwin' && (
         <>
-          {/* @ts-ignore */}
           <div
             style={{
               width: '100vw',
               height: 35,
+              /* @ts-ignore */
               WebkitAppRegion: 'drag',
               position: 'fixed',
             }}
