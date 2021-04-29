@@ -1,37 +1,41 @@
-import {app, BrowserWindow} from 'electron'
+import { app, BrowserWindow } from 'electron'
 import * as isDev from 'electron-is-dev'
 import * as path from 'path'
 
 let mainWindow: BrowserWindow | undefined
 
 const createWindow = () => {
-    mainWindow = new BrowserWindow({
-        width: 400,
-        height: 800,
-        center: true,
-        kiosk: !isDev,
-        fullscreenable: false,
-        webPreferences: {
-            nodeIntegration: true,
-            enableRemoteModule: true,
-            devTools: isDev,
-            contextIsolation: false
-        },
-    })
+  mainWindow = new BrowserWindow({
+    width: 900,
+    height: 600,
+    center: true,
+    kiosk: !isDev,
+    fullscreenable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      devTools: isDev,
+      contextIsolation: false,
+    },
+  })
 
-    mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`)
+  mainWindow.loadURL(
+    isDev
+      ? 'http://localhost:3000'
+      : `file://${path.join(__dirname, '../build/index.html')}`
+  )
 
-    mainWindow.on('closed', () => (mainWindow = undefined))
+  mainWindow.on('closed', () => (mainWindow = undefined))
 
-    mainWindow.focus()
+  mainWindow.focus()
 }
 
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
+  if (process.platform !== 'darwin') app.quit()
 })
 
 app.on('activate', () => {
-    if (!mainWindow) createWindow()
+  if (!mainWindow) createWindow()
 })
