@@ -2,12 +2,13 @@
   "name": "youtube-dl-gui",
   "version": "0.1.0",
   "private": true,
+  "main": "public/bootstrap.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
+    "@types/node": "^15.0.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "electron-is-dev": "^2.0.0",
@@ -18,10 +19,12 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "react:start": "react-scripts start",
+    "react:build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "tsc ./public/bootstrap.ts && concurrently \"cross-env BROWSER=none npm run react:start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "npm run react:build && electron-builder",
+    "release": "npm run react-build && electron-builder --publish=always"
   },
   "eslintConfig": {
     "extends": [
