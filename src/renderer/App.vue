@@ -1,12 +1,18 @@
 <template>
   <div id="app">
+    <div v-if="process.platform === 'darwin'" style="-webkit-app-region: drag; height: 20px"></div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'youtube-dl-gui'
+    name: 'youtube-dl-gui',
+    computed: {
+      process () {
+        return process
+      }
+    }
   }
 </script>
 
