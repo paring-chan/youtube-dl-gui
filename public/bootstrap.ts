@@ -10,7 +10,6 @@ const createWindow = () => {
         height: 400,
         center: true,
         kiosk: !isDev,
-        resizable: false,
         fullscreenable: false,
         webPreferences: {
             nodeIntegration: true,
