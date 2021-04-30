@@ -9,7 +9,8 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core'
-import { Close } from '@material-ui/icons'
+import { Close, Search } from '@material-ui/icons'
+import ytsr from 'ytsr'
 
 const SongAddDialog = () => {
   const [open, setOpen] = useRecoilState(addDialogOpen)
@@ -29,7 +30,15 @@ const SongAddDialog = () => {
         </IconButton>
       </Toolbar>
       <DialogContent>
-        <TextField fullWidth placeholder='곡 제목 또는 URL을 입력해주세요' />
+        <div style={{ display: 'flex', gap: 8 }}>
+          <TextField
+            style={{ flexGrow: 1 }}
+            placeholder='영상 제목 또는 URL을 입력해주세요'
+          />
+          <IconButton>
+            <Search />
+          </IconButton>
+        </div>
       </DialogContent>
     </Dialog>
   )
