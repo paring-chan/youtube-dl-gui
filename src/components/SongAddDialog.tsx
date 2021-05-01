@@ -82,7 +82,7 @@ const SongAddDialog = () => {
         </div>
         <div style={{ marginTop: 5, marginBottom: 10 }}>
           {res && res.videoDetails && (
-            <Card>
+            <Card variant='outlined'>
               <CardMedia
                 component='img'
                 alt='thumbnail'
