@@ -9,8 +9,6 @@ import {
   Dialog,
   DialogContent,
   IconButton,
-  Tab,
-  Tabs,
   TextField,
   Toolbar,
   Typography,
