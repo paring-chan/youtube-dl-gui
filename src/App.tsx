@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil'
 import SongAddDialog from './components/SongAddDialog'
 import TrackList from './components/TrackList'
 import { SnackbarProvider } from 'notistack'
+import DownloadSection from './components/DownloadSection'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             추가된 영상 목록
           </Typography>
           <TrackList />
+          <DownloadSection />
         </Container>
       </RecoilRoot>
     </SnackbarProvider>
