@@ -1,8 +1,20 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import * as isDev from 'electron-is-dev'
 import * as path from 'path'
 
 let mainWindow: BrowserWindow | undefined
+
+ipcMain.on('select-dir', async (e) => {
+  const res: Electron.OpenDialogReturnValue = await dialog.showOpenDialog(
+    mainWindow!,
+    {
+      properties: ['openDirectory'],
+    }
+  )
+  if (res.filePaths.length) {
+    e.reply('select-dir-complete', res.filePaths[0])
+  }
+})
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
