@@ -17,6 +17,7 @@ import { Close, List, Search } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
 import { videoInfo } from 'ytdl-core'
 import { Result } from 'ytpl'
+import { useSnackbar } from 'notistack'
 
 declare var utils: any
 
@@ -27,6 +28,7 @@ const SongAddDialog = () => {
   const [res, setRes] = React.useState<videoInfo | Result | null>(null)
   const [loading, setLoading] = React.useState(false)
   const [tracks, setTracks] = useRecoilState(tracksState)
+  const { enqueueSnackbar } = useSnackbar()
 
   const getInfoFromVideo = async () => {
     setRes(null)
@@ -87,7 +89,11 @@ const SongAddDialog = () => {
               <CardMedia
                 component='img'
                 alt='thumbnail'
-                image={`https://i.ytimg.com/vi/${res.videoDetails.videoId}/maxresdefault.jpg`}
+                image={
+                  res.videoDetails.thumbnails[
+                    res.videoDetails.thumbnails.length - 1
+                  ].url
+                }
               />
               <CardContent
                 style={{ display: 'flex', gap: 8, flexDirection: 'column' }}
@@ -119,11 +125,16 @@ const SongAddDialog = () => {
                       patched.push({
                         id: v.videoId,
                         title: v.title,
-                        thumbnail: `https://i.ytimg.com/vi/${res.videoDetails.videoId}/maxresdefault.jpg`,
+                        thumbnail: v.thumbnails[v.thumbnails.length - 1].url,
                         author: v.author.name,
                       })
 
                       setTracks(patched)
+
+                      enqueueSnackbar('영상이 추가되었습니다.', {
+                        variant: 'success',
+                      })
+                      setOpen(false)
                     }}
                   >
                     추가하기
@@ -155,7 +166,31 @@ const SongAddDialog = () => {
                   </Typography>
                 </div>
                 <div>
-                  <Button variant='outlined' color='primary' onClick={() => {}}>
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    onClick={() => {
+                      let patched = [...tracks]
+                      patched.push(
+                        ...res.items
+                          .filter((x) => !patched.find((y) => x.id === y.id))
+                          .map((x) => ({
+                            id: x.id,
+                            title: x.title,
+                            thumbnail: x.bestThumbnail.url,
+                            author: x.author.name,
+                          }))
+                      )
+                      setTracks(patched)
+                      enqueueSnackbar(
+                        `영상 ${res.items.length}개가 추가되었습니다.`,
+                        {
+                          variant: 'success',
+                        }
+                      )
+                      setOpen(false)
+                    }}
+                  >
                     영상 {res.items.length}개 추가하기
                   </Button>
                 </div>
