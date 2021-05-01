@@ -1,5 +1,5 @@
 import React from 'react'
-import { CssBaseline } from '@material-ui/core'
+import { Container, CssBaseline, Typography } from '@material-ui/core'
 import Header from './components/Header'
 import { RecoilRoot } from 'recoil'
 import SongAddDialog from './components/SongAddDialog'
@@ -11,7 +11,16 @@ function App() {
       <CssBaseline />
       <Header />
       <SongAddDialog />
-      <TrackList />
+      <Container
+        style={{
+          margin: '20px 20px 0 20px',
+        }}
+      >
+        <Typography variant='h4' gutterBottom>
+          추가된 영상 목록
+        </Typography>
+        <TrackList />
+      </Container>
     </RecoilRoot>
   )
 }
