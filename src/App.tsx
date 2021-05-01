@@ -14,11 +14,7 @@ function App() {
         <CssBaseline />
         <Header />
         <SongAddDialog />
-        <Container
-          style={{
-            margin: '20px 20px 0 20px',
-          }}
-        >
+        <Container>
           <DownloadSection />
           <Typography variant='h4' gutterBottom>
             추가된 영상 목록
