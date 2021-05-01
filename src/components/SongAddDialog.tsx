@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRecoilState } from 'recoil'
-import { addDialogOpen } from '../store'
+import { addDialogOpen, tracksState } from '../store'
 import {
   Button,
   Card,
@@ -24,10 +24,11 @@ declare var utils: any
 const SongAddDialog = () => {
   const [open, setOpen] = useRecoilState(addDialogOpen)
   const [search, setSearch] = React.useState('')
-  const [alert, setAlert] = React.useState(null)
+  const [alert, setAlert] = React.useState<null | string>(null)
   const [tab, setTab] = React.useState(0)
   const [res, setRes] = React.useState<videoInfo | null>(null)
   const [loading, setLoading] = React.useState(false)
+  const [tracks, setTracks] = useRecoilState(tracksState)
 
   const getInfoFromVideo = async () => {
     setRes(null)
@@ -99,7 +100,25 @@ const SongAddDialog = () => {
                   </Typography>
                 </div>
                 <div>
-                  <Button variant='outlined' color='primary'>
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    onClick={() => {
+                      if (
+                        tracks.find((x) => x.id === res!.videoDetails.videoId)
+                      ) {
+                        return setAlert('이미 추가된 영상입니다.')
+                      }
+                      const v = res!.videoDetails
+
+                      tracks.push({
+                        id: v.videoId,
+                        title: v.title,
+                        thumbnail: `https://i.ytimg.com/vi/${res.videoDetails.videoId}/maxresdefault.jpg`,
+                        author: v.author.name,
+                      })
+                    }}
+                  >
                     추가하기
                   </Button>
                 </div>
