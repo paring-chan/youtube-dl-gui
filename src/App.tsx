@@ -4,24 +4,27 @@ import Header from './components/Header'
 import { RecoilRoot } from 'recoil'
 import SongAddDialog from './components/SongAddDialog'
 import TrackList from './components/TrackList'
+import { SnackbarProvider } from 'notistack'
 
 function App() {
   return (
-    <RecoilRoot>
-      <CssBaseline />
-      <Header />
-      <SongAddDialog />
-      <Container
-        style={{
-          margin: '20px 20px 0 20px',
-        }}
-      >
-        <Typography variant='h4' gutterBottom>
-          추가된 영상 목록
-        </Typography>
-        <TrackList />
-      </Container>
-    </RecoilRoot>
+    <SnackbarProvider>
+      <RecoilRoot>
+        <CssBaseline />
+        <Header />
+        <SongAddDialog />
+        <Container
+          style={{
+            margin: '20px 20px 0 20px',
+          }}
+        >
+          <Typography variant='h4' gutterBottom>
+            추가된 영상 목록
+          </Typography>
+          <TrackList />
+        </Container>
+      </RecoilRoot>
+    </SnackbarProvider>
   )
 }
 
