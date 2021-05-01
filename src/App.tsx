@@ -3,6 +3,7 @@ import { CssBaseline } from '@material-ui/core'
 import Header from './components/Header'
 import { RecoilRoot } from 'recoil'
 import SongAddDialog from './components/SongAddDialog'
+import TrackList from './components/TrackList'
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <CssBaseline />
       <Header />
       <SongAddDialog />
-      app
+      <TrackList />
     </RecoilRoot>
   )
 }
