@@ -64,7 +64,7 @@ const SongAddDialog = () => {
           <Tab label='채널/재생목록 추가하기' />
         </Tabs>
         {alert && (
-          <Alert color='error' style={{ marginTop: 10 }}>
+          <Alert severity='error' style={{ marginTop: 10 }}>
             {alert}
           </Alert>
         )}
