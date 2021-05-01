@@ -111,12 +111,16 @@ const SongAddDialog = () => {
                       }
                       const v = res!.videoDetails
 
-                      tracks.push({
+                      const patched = [...tracks]
+
+                      patched.push({
                         id: v.videoId,
                         title: v.title,
                         thumbnail: `https://i.ytimg.com/vi/${res.videoDetails.videoId}/maxresdefault.jpg`,
                         author: v.author.name,
                       })
+
+                      setTracks(patched)
                     }}
                   >
                     추가하기
