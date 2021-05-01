@@ -29,7 +29,7 @@ const DownloadSection = () => {
     <Card
       variant='outlined'
       style={{
-        marginTop: 10,
+        marginBottom: 10,
       }}
     >
       <CardContent>

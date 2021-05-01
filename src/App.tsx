@@ -19,11 +19,11 @@ function App() {
             margin: '20px 20px 0 20px',
           }}
         >
+          <DownloadSection />
           <Typography variant='h4' gutterBottom>
             추가된 영상 목록
           </Typography>
           <TrackList />
-          <DownloadSection />
         </Container>
       </RecoilRoot>
     </SnackbarProvider>
