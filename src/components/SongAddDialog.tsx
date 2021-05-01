@@ -2,7 +2,11 @@ import React from 'react'
 import { useRecoilState } from 'recoil'
 import { addDialogOpen } from '../store'
 import {
+  Button,
   Card,
+  CardActions,
+  CardContent,
+  CardMedia,
   Dialog,
   DialogContent,
   IconButton,
@@ -12,7 +16,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core'
-import { Close, Search } from '@material-ui/icons'
+import { Add, Close, Search } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
 import { videoInfo } from 'ytdl-core'
 
@@ -71,9 +75,32 @@ const SongAddDialog = () => {
             <Search />
           </IconButton>
         </div>
-        <div style={{ marginTop: 10 }}>
+        <div style={{ marginTop: 5, marginBottom: 10 }}>
           {res && res.videoDetails && (
-            <Card>{JSON.stringify(res.videoDetails)}</Card>
+            <Card>
+              <CardMedia
+                component='img'
+                alt='thumbnail'
+                image={`https://i.ytimg.com/vi/${res.videoDetails.videoId}/maxresdefault.jpg`}
+              />
+              <CardContent style={{ display: 'flex' }}>
+                <div style={{ flexGrow: 1 }}>
+                  <Typography variant='h5'>{res.videoDetails.title}</Typography>
+                  <Typography
+                    variant='body1'
+                    color='textSecondary'
+                    component='p'
+                  >
+                    {res.videoDetails.author.name}
+                  </Typography>
+                </div>
+                <div>
+                  <Button variant='outlined' color='primary'>
+                    추가하기
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           )}
         </div>
       </DialogContent>
