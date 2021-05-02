@@ -21,6 +21,7 @@ import {
 } from '../store'
 import { useSnackbar } from 'notistack'
 import { Readable } from 'stream'
+import path from 'path'
 
 declare var utils: any
 
@@ -105,16 +106,51 @@ const DownloadSection = () => {
             }
             setLogModal(true)
             for (const track of tracks) {
+              setCurrentState(track)
               if (format === 'mp4') {
-                const video = utils.ytdl(track.id, {
-                  quality: 'highestvideo',
-                }) as Readable
-                const audio = (await utils.ytdl(track.id, {
-                  quality: 'highestaudio',
-                })) as Readable
-                setCurrentState(track)
+                await new Promise<void>(async (resolve) => {
+                  const video = utils.ytdl(track.id, {
+                    quality: 'highestvideo',
+                  }) as Readable
+                  const audio = (await utils.ytdl(track.id, {
+                    quality: 'highestaudio',
+                  })) as Readable
+
+                  const ffmpegProcess = utils.cp.spawn(
+                    utils.ffmpeg,
+                    [
+                      '-loglevel',
+                      '8',
+                      '-hide_banner',
+                      '-i',
+                      'pipe:3',
+                      '-i',
+                      'pipe:4',
+                      '-map',
+                      '0:a',
+                      '-map',
+                      '1:v',
+                      '-c:v',
+                      'copy',
+                      path.join(dir, track.title + '.mp4'),
+                    ],
+                    {
+                      windowsHide: true,
+                      stdio: ['inherit', 'inherit', 'inherit', 'pipe', 'pipe'],
+                    }
+                  )
+
+                  ffmpegProcess.on('close', () => {
+                    resolve()
+                  })
+
+                  audio.pipe(ffmpegProcess.stdio[3] as any)
+                  video.pipe(ffmpegProcess.stdio[4] as any)
+                })
               }
             }
+            setCurrentState(null)
+            setLogModal(false)
           }}
         >
           다운로드 시작

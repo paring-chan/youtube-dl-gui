@@ -1,6 +1,8 @@
 window.utils = {
   ytdl: require('ytdl-core'),
   ytpl: require('ytpl'),
+  ffmpeg: require('ffmpeg-static'),
+  cp: require('child_process'),
 }
 
 const { ipcRenderer } = require('electron')
