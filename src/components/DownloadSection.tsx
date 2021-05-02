@@ -116,39 +116,12 @@ const DownloadSection = () => {
                 setTracker(prev)
                 setLogModal(true)
 
-                const video = (utils.ytdl(track.id, {
+                const video = utils.ytdl(track.id, {
                   quality: 'highestvideo',
-                }) as Readable).on('progress', (_, downloaded, total) => {
-                  prev = {
-                    video: {
-                      downloaded,
-                      total,
-                    },
-                    start: prev.start,
-                    audio: prev.audio,
-                    merged: prev.merged,
-                  }
-                  console.log(prev)
-                  setTracker(prev)
-                  setCurrentState(track)
-                })
-                const audio = ((await utils.ytdl(track.id, {
+                }) as Readable
+                const audio = (await utils.ytdl(track.id, {
                   quality: 'highestaudio',
-                })) as Readable).on('progress', (_, downloaded, total) => {
-                  prev = {
-                    audio: {
-                      downloaded,
-                      total,
-                    },
-                    start: prev.start,
-                    video: prev.video,
-                    merged: prev.merged,
-                  }
-                  console.log(prev)
-
-                  setTracker(prev)
-                  setCurrentState(track)
-                })
+                })) as Readable
                 setCurrentState({
                   tracker,
                   track,
