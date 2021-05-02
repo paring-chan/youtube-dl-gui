@@ -119,8 +119,6 @@ const DownloadSection = () => {
                   const ffmpegProcess = utils.cp.spawn(
                     utils.ffmpeg,
                     [
-                      '-loglevel',
-                      '8',
                       '-hide_banner',
                       '-i',
                       'pipe:3',
