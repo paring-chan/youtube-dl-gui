@@ -19,3 +19,13 @@ export const currentState = atom<any>({
   key: 'currentState',
   default: null,
 })
+
+export const dirState = atom<string>({
+  key: 'dir',
+  default: '',
+})
+
+export const formatState = atom<string>({
+  key: 'format',
+  default: 'mp4',
+})

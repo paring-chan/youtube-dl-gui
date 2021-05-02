@@ -11,13 +11,18 @@ import {
   Select,
   TextField,
 } from '@material-ui/core'
-import { useSetRecoilState } from 'recoil'
-import { logModalOpen } from '../store'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { dirState, formatState, logModalOpen, tracksState } from '../store'
+import { useSnackbar } from 'notistack'
+
+declare var utils: any
 
 const DownloadSection = () => {
-  const [format, setFormat] = React.useState('mp4')
-  const [dir, setDir] = React.useState('')
-  const setLog = useSetRecoilState(logModalOpen)
+  const [format, setFormat] = useRecoilState(formatState)
+  const [dir, setDir] = useRecoilState(dirState)
+  const setLogModal = useSetRecoilState(logModalOpen)
+  const [tracks] = useRecoilState(tracksState)
+  const { enqueueSnackbar } = useSnackbar()
 
   const selectCallback = (event: MessageEvent) => {
     setDir(event.data.data)
@@ -77,8 +82,31 @@ const DownloadSection = () => {
           fullWidth
           variant='outlined'
           color='primary'
-          onClick={() => {
-            setLog(true)
+          onClick={async () => {
+            if (!tracks.length) {
+              enqueueSnackbar('다운로드 대기열이 비었습니다.', {
+                variant: 'error',
+              })
+              return
+            }
+            if (!dir) {
+              enqueueSnackbar('다운로드 폴더를 선택해주세요.', {
+                variant: 'error',
+              })
+              return
+            }
+            setLogModal(true)
+            for (const track of tracks) {
+              if (format === 'mp4') {
+                const video = await utils.ytdl(track.id, {
+                  quality: 'highest',
+                })
+                const audio = await utils.ytdl(track.id, {
+                  quality: 'highest',
+                })
+              }
+            }
+            setLogModal(false)
           }}
         >
           다운로드 시작
