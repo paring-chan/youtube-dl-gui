@@ -1,15 +1,9 @@
-import React, { useRef } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@material-ui/core'
+import React from 'react'
+import { Dialog, DialogTitle } from '@material-ui/core'
 import { useRecoilValue } from 'recoil'
 import { currentState, logModalOpen } from '../store'
 
 const LogModal = () => {
-  const ref = useRef<any>()
   const open = useRecoilValue(logModalOpen)
   const state = useRecoilValue(currentState)
 
