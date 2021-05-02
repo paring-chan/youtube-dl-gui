@@ -155,17 +155,37 @@ const DownloadSection = () => {
                   video.pipe(ffmpegProcess.stdio[4] as any)
                 })
               } else if (format === 'mp3') {
-                const stream = utils.ytdl(track.id, {
+                const audio = (utils.ytdl(track.id, {
                   quality: 'highestaudio',
+                }) as Readable).on('progress', (_, progress, total) => {
+                  setAudioProgress((progress / total) * 100)
                 })
                 await new Promise<void>((resolve) => {
-                  utils
-                    .fluentFFmpeg(stream)
-                    .audioBitrate(128)
-                    .save(path.join(dir, sanitize(track.title + '.mp3')))
-                    .on('end', () => {
-                      resolve()
-                    })
+                  const ffmpegProcess = utils.cp.spawn(
+                    utils.ffmpeg,
+                    [
+                      '-hide_banner',
+                      '-i',
+                      'pipe:3',
+                      '-map',
+                      '0:a',
+                      '-metadata',
+                      JSON.stringify('title=' + track.title),
+                      '-metadata',
+                      'artist=' + track.author,
+                      path.join(dir, sanitize(track.title + '.mp3')),
+                    ],
+                    {
+                      windowsHide: true,
+                      stdio: ['inherit', 'inherit', 'inherit', 'pipe'],
+                    }
+                  )
+
+                  ffmpegProcess.on('close', () => {
+                    resolve()
+                  })
+
+                  audio.pipe(ffmpegProcess.stdio[3] as any)
                 })
               }
             }

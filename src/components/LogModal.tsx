@@ -37,16 +37,12 @@ const LogModal = () => {
           <DialogTitle>다운로드중: {state.title}</DialogTitle>
           <DialogContent>
             <img src={state.thumbnail} width='100%' alt='thumbnail' />
+            <Typography variant='body1' gutterBottom style={{ marginTop: 5 }}>
+              오디오
+            </Typography>
+            <LinearProgress value={audio} variant='determinate' />
             {format === 'mp4' && (
               <>
-                <Typography
-                  variant='body1'
-                  gutterBottom
-                  style={{ marginTop: 5 }}
-                >
-                  오디오
-                </Typography>
-                <LinearProgress value={audio} variant='determinate' />
                 <Typography
                   variant='body1'
                   gutterBottom
