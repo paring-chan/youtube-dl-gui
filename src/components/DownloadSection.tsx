@@ -154,6 +154,19 @@ const DownloadSection = () => {
                   audio.pipe(ffmpegProcess.stdio[3] as any)
                   video.pipe(ffmpegProcess.stdio[4] as any)
                 })
+              } else if (format === 'mp3') {
+                const stream = utils.ytdl(track.id, {
+                  quality: 'highestaudio',
+                })
+                await new Promise<void>((resolve) => {
+                  utils
+                    .fluentFFmpeg(stream)
+                    .audioBitrate(128)
+                    .save(path.join(dir, sanitize(track.title + '.mp3')))
+                    .on('end', () => {
+                      resolve()
+                    })
+                })
               }
             }
             setTracks([])

@@ -12,6 +12,7 @@ import {
   currentState,
   formatState,
   logModalOpen,
+  tracksState,
   videoProgressState,
 } from '../store'
 
@@ -21,6 +22,7 @@ const LogModal = () => {
   const format = useRecoilValue(formatState)
   const audio = useRecoilValue(audioProgressState)
   const video = useRecoilValue(videoProgressState)
+  const tracks = useRecoilValue(tracksState)
 
   return (
     <Dialog open={open} fullWidth>
@@ -50,6 +52,12 @@ const LogModal = () => {
               </>
             )}
           </DialogContent>
+          <LinearProgress
+            variant='determinate'
+            value={
+              (tracks.findIndex((x) => x.id === state.id) / tracks.length) * 100
+            }
+          />
         </>
       ) : (
         <>
