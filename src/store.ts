@@ -14,3 +14,8 @@ export const logModalOpen = atom<boolean>({
   key: 'logModalOpen',
   default: false,
 })
+
+export const currentState = atom<any>({
+  key: 'currentState',
+  default: null,
+})
