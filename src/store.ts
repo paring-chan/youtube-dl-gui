@@ -29,8 +29,3 @@ export const formatState = atom<string>({
   key: 'format',
   default: 'mp4',
 })
-
-export const trackerState = atom<any>({
-  key: 'tracker',
-  default: null,
-})

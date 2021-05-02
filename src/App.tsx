@@ -7,7 +7,6 @@ import TrackList from './components/TrackList'
 import { SnackbarProvider } from 'notistack'
 import DownloadSection from './components/DownloadSection'
 import LogModal from './components/LogModal'
-import 'xterm/css/xterm.css'
 
 function App() {
   return (
