@@ -1,6 +1,8 @@
 import React from 'react'
 import {
+  Button,
   Card,
+  CardActions,
   CardContent,
   FormControl,
   Grid,
@@ -67,6 +69,11 @@ const DownloadSection = () => {
           </Grid>
         </Grid>
       </CardContent>
+      <CardActions>
+        <Button fullWidth variant='outlined' color='primary'>
+          다운로드 시작
+        </Button>
+      </CardActions>
     </Card>
   )
 }
