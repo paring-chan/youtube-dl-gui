@@ -162,14 +162,6 @@ const DownloadSection = () => {
                   utils
                     .fluentFFmpeg(stream)
                     .audioBitrate(128)
-                    .outputOptions([
-                      '-id3v2_version',
-                      '4',
-                      '-metadata',
-                      'title=' + track.title,
-                      '-metadata',
-                      'artist=' + track.author,
-                    ])
                     .save(path.join(dir, sanitize(track.title + '.mp3')))
                     .on('end', () => {
                       resolve()
