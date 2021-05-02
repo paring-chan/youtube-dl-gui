@@ -17,6 +17,7 @@ import {
   dirState,
   formatState,
   logModalOpen,
+  trackerState,
   tracksState,
 } from '../store'
 import { useSnackbar } from 'notistack'
@@ -31,6 +32,7 @@ const DownloadSection = () => {
   const setCurrentState = useSetRecoilState(currentState)
   const [tracks] = useRecoilState(tracksState)
   const { enqueueSnackbar } = useSnackbar()
+  const [tracker, setTracker] = useRecoilState(trackerState)
 
   const selectCallback = (event: MessageEvent) => {
     setDir(event.data.data)
@@ -103,46 +105,49 @@ const DownloadSection = () => {
               })
               return
             }
-            setLogModal(true)
             for (const track of tracks) {
               if (format === 'mp4') {
-                let tracker = {
+                let prev = {
                   start: Date.now(),
                   audio: { downloaded: 0, total: Infinity },
                   video: { downloaded: 0, total: Infinity },
                   merged: { frame: 0, speed: '0x', fps: 0 },
                 }
-                const video = ((await utils.ytdl(track.id, {
+                setTracker(prev)
+                setLogModal(true)
+
+                const video = (utils.ytdl(track.id, {
                   quality: 'highestvideo',
-                })) as Readable).on('progress', (_, downloaded, total) => {
-                  const newTracker = {
-                    ...tracker,
+                }) as Readable).on('progress', (_, downloaded, total) => {
+                  prev = {
                     video: {
                       downloaded,
                       total,
                     },
+                    start: prev.start,
+                    audio: prev.audio,
+                    merged: prev.merged,
                   }
-                  setCurrentState({
-                    tracker: newTracker,
-                    track,
-                  })
-                  tracker = newTracker
+                  console.log(prev)
+                  setTracker(prev)
+                  setCurrentState(track)
                 })
                 const audio = ((await utils.ytdl(track.id, {
                   quality: 'highestaudio',
                 })) as Readable).on('progress', (_, downloaded, total) => {
-                  const newTracker = {
-                    ...tracker,
-                    video: {
+                  prev = {
+                    audio: {
                       downloaded,
                       total,
                     },
+                    start: prev.start,
+                    video: prev.video,
+                    merged: prev.merged,
                   }
-                  setCurrentState({
-                    tracker: newTracker,
-                    track,
-                  })
-                  tracker = newTracker
+                  console.log(prev)
+
+                  setTracker(prev)
+                  setCurrentState(track)
                 })
                 setCurrentState({
                   tracker,
@@ -150,7 +155,6 @@ const DownloadSection = () => {
                 })
               }
             }
-            setTimeout(() => setLogModal(false), 2000)
           }}
         >
           다운로드 시작
