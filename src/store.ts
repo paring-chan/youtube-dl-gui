@@ -9,3 +9,8 @@ export const addDialogOpen = atom<boolean>({
   key: 'addDialogOpen',
   default: false,
 })
+
+export const logModalOpen = atom<boolean>({
+  key: 'logModalOpen',
+  default: false,
+})

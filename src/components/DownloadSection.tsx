@@ -11,12 +11,15 @@ import {
   Select,
   TextField,
 } from '@material-ui/core'
+import { useSetRecoilState } from 'recoil'
+import { logModalOpen } from '../store'
 
 const DownloadSection = () => {
   const [format, setFormat] = React.useState('mp4')
   const [dir, setDir] = React.useState('')
+  const setLog = useSetRecoilState(logModalOpen)
 
-  const selectCallback = (event: MessageEvent<any>) => {
+  const selectCallback = (event: MessageEvent) => {
     setDir(event.data.data)
   }
 
@@ -70,7 +73,14 @@ const DownloadSection = () => {
         </Grid>
       </CardContent>
       <CardActions>
-        <Button fullWidth variant='outlined' color='primary'>
+        <Button
+          fullWidth
+          variant='outlined'
+          color='primary'
+          onClick={() => {
+            setLog(true)
+          }}
+        >
           다운로드 시작
         </Button>
       </CardActions>
