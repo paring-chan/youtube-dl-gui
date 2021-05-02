@@ -13,11 +13,13 @@ import {
 } from '@material-ui/core'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import {
+  audioProgressState,
   currentState,
   dirState,
   formatState,
   logModalOpen,
   tracksState,
+  videoProgressState,
 } from '../store'
 import { useSnackbar } from 'notistack'
 import { Readable } from 'stream'
@@ -33,6 +35,8 @@ const DownloadSection = () => {
   const setCurrentState = useSetRecoilState(currentState)
   const [tracks, setTracks] = useRecoilState(tracksState)
   const { enqueueSnackbar } = useSnackbar()
+  const setAudioProgress = useSetRecoilState(audioProgressState)
+  const setVideoProgress = useSetRecoilState(videoProgressState)
 
   const selectCallback = (event: MessageEvent) => {
     setDir(event.data.data)
@@ -108,14 +112,20 @@ const DownloadSection = () => {
             setLogModal(true)
             for (const track of tracks) {
               setCurrentState(track)
+              setAudioProgress(0)
+              setVideoProgress(0)
               if (format === 'mp4') {
                 await new Promise<void>(async (resolve) => {
-                  const video = utils.ytdl(track.id, {
+                  const video = (utils.ytdl(track.id, {
                     quality: 'highestvideo',
-                  }) as Readable
-                  const audio = (await utils.ytdl(track.id, {
+                  }) as Readable).on('progress', (_, progress, total) => {
+                    setVideoProgress((progress / total) * 100)
+                  })
+                  const audio = (utils.ytdl(track.id, {
                     quality: 'highestaudio',
-                  })) as Readable
+                  }) as Readable).on('progress', (_, progress, total) => {
+                    setAudioProgress((progress / total) * 100)
+                  })
 
                   const ffmpegProcess = utils.cp.spawn(
                     utils.ffmpeg,

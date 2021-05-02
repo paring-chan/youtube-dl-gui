@@ -4,13 +4,23 @@ import {
   DialogContent,
   DialogTitle,
   LinearProgress,
+  Typography,
 } from '@material-ui/core'
 import { useRecoilValue } from 'recoil'
-import { currentState, logModalOpen } from '../store'
+import {
+  audioProgressState,
+  currentState,
+  formatState,
+  logModalOpen,
+  videoProgressState,
+} from '../store'
 
 const LogModal = () => {
   const open = useRecoilValue(logModalOpen)
   const state = useRecoilValue(currentState)
+  const format = useRecoilValue(formatState)
+  const audio = useRecoilValue(audioProgressState)
+  const video = useRecoilValue(videoProgressState)
 
   return (
     <Dialog open={open} fullWidth>
@@ -19,8 +29,27 @@ const LogModal = () => {
           <DialogTitle>다운로드중: {state.title}</DialogTitle>
           <DialogContent>
             <img src={state.thumbnail} width='100%' alt='thumbnail' />
+            {format === 'mp4' && (
+              <>
+                <Typography
+                  variant='body1'
+                  gutterBottom
+                  style={{ marginTop: 5 }}
+                >
+                  오디오
+                </Typography>
+                <LinearProgress value={audio} variant='determinate' />
+                <Typography
+                  variant='body1'
+                  gutterBottom
+                  style={{ marginTop: 5 }}
+                >
+                  비디오
+                </Typography>
+                <LinearProgress value={video} variant='determinate' />
+              </>
+            )}
           </DialogContent>
-          <LinearProgress />
         </>
       ) : (
         <>

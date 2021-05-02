@@ -29,3 +29,13 @@ export const formatState = atom<string>({
   key: 'format',
   default: 'mp4',
 })
+
+export const audioProgressState = atom<number>({
+  key: 'audioProgress',
+  default: 0,
+})
+
+export const videoProgressState = atom<number>({
+  key: 'videoProgress',
+  default: 0,
+})
