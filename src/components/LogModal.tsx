@@ -28,6 +28,12 @@ const LogModal = () => {
     <Dialog open={open} fullWidth>
       {state ? (
         <>
+          <LinearProgress
+            variant='determinate'
+            value={
+              (tracks.findIndex((x) => x.id === state.id) / tracks.length) * 100
+            }
+          />
           <DialogTitle>다운로드중: {state.title}</DialogTitle>
           <DialogContent>
             <img src={state.thumbnail} width='100%' alt='thumbnail' />
@@ -52,12 +58,6 @@ const LogModal = () => {
               </>
             )}
           </DialogContent>
-          <LinearProgress
-            variant='determinate'
-            value={
-              (tracks.findIndex((x) => x.id === state.id) / tracks.length) * 100
-            }
-          />
         </>
       ) : (
         <>
