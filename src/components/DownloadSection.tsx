@@ -22,6 +22,7 @@ import {
 import { useSnackbar } from 'notistack'
 import { Readable } from 'stream'
 import path from 'path'
+import sanitize from 'sanitize-filename'
 
 declare var utils: any
 
@@ -130,7 +131,7 @@ const DownloadSection = () => {
                       '1:v',
                       '-c:v',
                       'copy',
-                      path.join(dir, track.title + '.mp4'),
+                      path.join(dir, sanitize(track.title + '.mp4')),
                     ],
                     {
                       windowsHide: true,
