@@ -31,7 +31,7 @@ const DownloadSection = () => {
   const [dir, setDir] = useRecoilState(dirState)
   const setLogModal = useSetRecoilState(logModalOpen)
   const setCurrentState = useSetRecoilState(currentState)
-  const [tracks] = useRecoilState(tracksState)
+  const [tracks, setTracks] = useRecoilState(tracksState)
   const { enqueueSnackbar } = useSnackbar()
 
   const selectCallback = (event: MessageEvent) => {
@@ -129,8 +129,6 @@ const DownloadSection = () => {
                       '0:a',
                       '-map',
                       '1:v',
-                      '-c:v',
-                      'copy',
                       path.join(dir, sanitize(track.title + '.mp4')),
                     ],
                     {
@@ -148,6 +146,7 @@ const DownloadSection = () => {
                 })
               }
             }
+            setTracks([])
             setCurrentState(null)
             setLogModal(false)
           }}
