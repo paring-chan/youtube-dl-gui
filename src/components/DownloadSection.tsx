@@ -12,8 +12,15 @@ import {
   TextField,
 } from '@material-ui/core'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { dirState, formatState, logModalOpen, tracksState } from '../store'
+import {
+  currentState,
+  dirState,
+  formatState,
+  logModalOpen,
+  tracksState,
+} from '../store'
 import { useSnackbar } from 'notistack'
+import { Readable } from 'stream'
 
 declare var utils: any
 
@@ -21,6 +28,7 @@ const DownloadSection = () => {
   const [format, setFormat] = useRecoilState(formatState)
   const [dir, setDir] = useRecoilState(dirState)
   const setLogModal = useSetRecoilState(logModalOpen)
+  const setCurrentState = useSetRecoilState(currentState)
   const [tracks] = useRecoilState(tracksState)
   const { enqueueSnackbar } = useSnackbar()
 
@@ -98,15 +106,51 @@ const DownloadSection = () => {
             setLogModal(true)
             for (const track of tracks) {
               if (format === 'mp4') {
-                const video = await utils.ytdl(track.id, {
-                  quality: 'highest',
+                let tracker = {
+                  start: Date.now(),
+                  audio: { downloaded: 0, total: Infinity },
+                  video: { downloaded: 0, total: Infinity },
+                  merged: { frame: 0, speed: '0x', fps: 0 },
+                }
+                const video = ((await utils.ytdl(track.id, {
+                  quality: 'highestvideo',
+                })) as Readable).on('progress', (_, downloaded, total) => {
+                  const newTracker = {
+                    ...tracker,
+                    video: {
+                      downloaded,
+                      total,
+                    },
+                  }
+                  setCurrentState({
+                    tracker: newTracker,
+                    track,
+                  })
+                  tracker = newTracker
                 })
-                const audio = await utils.ytdl(track.id, {
-                  quality: 'highest',
+                const audio = ((await utils.ytdl(track.id, {
+                  quality: 'highestaudio',
+                })) as Readable).on('progress', (_, downloaded, total) => {
+                  const newTracker = {
+                    ...tracker,
+                    video: {
+                      downloaded,
+                      total,
+                    },
+                  }
+                  setCurrentState({
+                    tracker: newTracker,
+                    track,
+                  })
+                  tracker = newTracker
+                })
+                setCurrentState({
+                  tracker,
+                  track,
                 })
               }
             }
-            setLogModal(false)
+            setTimeout(() => setLogModal(false), 2000)
           }}
         >
           다운로드 시작
