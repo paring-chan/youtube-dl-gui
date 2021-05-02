@@ -1,12 +1,11 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogTitle } from '@material-ui/core'
 import { useRecoilValue } from 'recoil'
-import { currentState, formatState, logModalOpen } from '../store'
+import { currentState, logModalOpen } from '../store'
 
 const LogModal = () => {
   const open = useRecoilValue(logModalOpen)
   const state = useRecoilValue(currentState)
-  const format = useRecoilValue(formatState)
 
   return (
     <Dialog open={open}>
