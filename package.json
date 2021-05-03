@@ -91,13 +91,9 @@
     },
     "mac": {
       "target": [
-        "default"
+        "zip"
       ],
       "icon": "./resources/installer/icon.png"
-    },
-    "dmg": {
-      "icon": "./resource/installer/icon.png",
-      "title": "Youtube Downloader"
     }
   }
 }
