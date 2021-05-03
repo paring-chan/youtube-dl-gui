@@ -22,7 +22,6 @@ const createWindow = () => {
     height: 600,
     center: true,
     kiosk: !isDev,
-    fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
