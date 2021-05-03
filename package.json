@@ -84,7 +84,7 @@
       ],
       "icon": "./resources/installer/icon.ico"
     },
-    "asar": false,
+    "asar": true,
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
