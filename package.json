@@ -43,7 +43,7 @@
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux",
-    "app:publish": "electron-builder --win --mac --linux --publish always"
+    "app:publish": "tsc ./public/electron.ts && npm run react:build && electron-builder --win --mac --linux --publish always"
   },
   "eslintConfig": {
     "extends": [
