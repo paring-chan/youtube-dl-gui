@@ -96,7 +96,7 @@
     },
     "mac": {
       "target": [
-        "zip"
+        "dmg"
       ],
       "icon": "./resources/installer/icon.png"
     },
@@ -105,6 +105,10 @@
         "appimage"
       ],
       "category": "Utility"
+    },
+    "dmg": {
+      "backgroundColor": "#ff0000",
+      "icon": "./resources/installer/icon.png"
     }
   },
   "homepage": "./"
