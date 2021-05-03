@@ -1,6 +1,6 @@
 {
   "name": "youtube-dl-gui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "public/electron.js",
   "dependencies": {
@@ -41,7 +41,7 @@
     "release": "npm run react-build && electron-builder --publish=always",
     "electron:build": "npm-run-all build:win build:mac build:linux",
     "build:win": "electron-builder --win",
-    "build:mac":"electron-builder --mac",
+    "build:mac": "electron-builder --mac",
     "build:linux": "electron-builder --linux"
   },
   "eslintConfig": {
