@@ -84,7 +84,7 @@
       ],
       "icon": "./resources/installer/icon.ico"
     },
-    "asar": true,
+    "asar": false,
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
@@ -110,10 +110,7 @@
     "dmg": {
       "backgroundColor": "#ff0000",
       "icon": "./resources/installer/icon.png"
-    },
-    "asarUnpack": [
-      "**/node_modules/ffmpeg-static/**/*"
-    ]
+    }
   },
   "homepage": "./"
 }
