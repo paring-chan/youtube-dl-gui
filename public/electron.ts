@@ -21,12 +21,13 @@ const createWindow = () => {
     width: 900,
     height: 600,
     center: true,
-    kiosk: !isDev,
+    fullscreen: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
       contextIsolation: false,
       preload: path.join(__dirname, 'preload.js'),
+      devTools: true,
     },
   })
 
