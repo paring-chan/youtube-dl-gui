@@ -24,4 +24,6 @@ yarn-error.log*
 
 .idea
 
-public/bootstrap.js
+public/electron.js
+
+app

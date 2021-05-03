@@ -2,7 +2,7 @@
   "name": "youtube-dl-gui",
   "version": "0.1.0",
   "private": true,
-  "main": "public/bootstrap.js",
+  "main": "public/electron.js",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
@@ -36,8 +36,8 @@
     "react:start": "react-scripts start",
     "react:build": "react-scripts build",
     "eject": "react-scripts eject",
-    "start": "tsc ./public/bootstrap.ts && concurrently \"cross-env BROWSER=none npm run react:start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build": "npm run react:build && electron-builder",
+    "start": "tsc ./public/electron.ts && concurrently \"cross-env BROWSER=none npm run react:start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "tsc ./public/electron.ts && npm run react:build && electron-builder",
     "release": "npm run react-build && electron-builder --publish=always"
   },
   "eslintConfig": {
@@ -67,5 +67,37 @@
     "electronmon": "^2.0.1",
     "prettier": "^2.2.1",
     "wait-on": "^5.3.0"
+  },
+  "build": {
+    "productName": "Youtube-DL",
+    "appId": "com.github.pikokr.ytdl_gui",
+    "win": {
+      "target": [
+        "zip",
+        "nsis"
+      ],
+      "icon": "./resources/installer/icon.ico"
+    },
+    "asar": true,
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "./resources/installer/icon.ico"
+    },
+    "directories": {
+      "buildResources": "./resources/installer/",
+      "output": "./app/",
+      "app": "."
+    },
+    "mac": {
+      "target": [
+        "default"
+      ],
+      "icon": "./resources/installer/icon.png"
+    },
+    "dmg": {
+      "icon": "./resource/installer/icon.png",
+      "title": "Youtube Downloader"
+    }
   }
 }
