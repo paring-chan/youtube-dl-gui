@@ -37,7 +37,7 @@
     "react:build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "tsc ./public/electron.ts && concurrently \"cross-env BROWSER=none npm run react:start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build": "tsc ./public/electron.ts && npm run react:build && npm run electron:build",
+    "build": "tsc ./public/electron.ts && npm run react:build",
     "release": "npm run react-build && electron-builder --publish=always",
     "electron:build": "npm-run-all build:win build:mac build:linux",
     "build:win": "electron-builder --win",
