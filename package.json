@@ -1,6 +1,6 @@
 {
   "name": "youtube-dl-gui",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "private": true,
   "main": "public/electron.js",
   "dependencies": {
@@ -110,7 +110,10 @@
     "dmg": {
       "backgroundColor": "#ff0000",
       "icon": "./resources/installer/icon.png"
-    }
+    },
+    "asarUnpack": [
+      "**/node_modules/ffmpeg-static/**/*"
+    ]
   },
   "homepage": "./"
 }
