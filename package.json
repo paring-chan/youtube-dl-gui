@@ -15,6 +15,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "electron-is-dev": "^2.0.0",
+    "electron-updater": "^4.3.8",
     "ffmpeg-static": "^4.3.0",
     "fluent-ffmpeg": "^2.1.2",
     "lodash": "^4.17.21",

@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import * as isDev from 'electron-is-dev'
 import * as path from 'path'
+import { autoUpdater } from 'electron-updater'
 
 let mainWindow: BrowserWindow | undefined
 
@@ -42,6 +43,8 @@ const createWindow = () => {
 }
 
 app.on('ready', createWindow)
+
+autoUpdater.checkForUpdatesAndNotify()
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
