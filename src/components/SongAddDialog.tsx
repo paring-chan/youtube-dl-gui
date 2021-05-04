@@ -8,7 +8,11 @@ import {
   CardMedia,
   Dialog,
   DialogContent,
+  Divider,
   IconButton,
+  ListItem,
+  ListItemText,
+  List as MUIList,
   TextField,
   Toolbar,
   Typography,
@@ -165,6 +169,14 @@ const SongAddDialog = () => {
                     {res.author.name}
                   </Typography>
                 </div>
+                <Divider />
+                <MUIList>
+                  {res.items.map((x, y) => (
+                    <ListItem key={y}>
+                      <ListItemText primary={x.title} />
+                    </ListItem>
+                  ))}
+                </MUIList>
                 <div>
                   {/*<Button*/}
                   {/*  variant='outlined'*/}
