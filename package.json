@@ -1,6 +1,7 @@
 {
   "name": "youtube-dl-gui",
   "version": "1.0.5",
+  "license": "gplv3",
   "private": true,
   "main": "public/electron.js",
   "dependencies": {
