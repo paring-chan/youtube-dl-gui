@@ -211,7 +211,9 @@ const SongAddDialog = () => {
                     </ListItemAvatar>
                     <ListItemText primary={x.title} />
                     <ListItemSecondaryAction>
-                      <IconButton>
+                      <IconButton
+                        disabled={!!res.items.find((i) => x.id === i.id)}
+                      >
                         <Add />
                       </IconButton>
                     </ListItemSecondaryAction>
