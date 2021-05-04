@@ -16,6 +16,8 @@ import {
   TextField,
   Toolbar,
   Typography,
+  ListItemAvatar,
+  Avatar,
 } from '@material-ui/core'
 import { Close, List, Search } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
@@ -173,6 +175,9 @@ const SongAddDialog = () => {
                 <MUIList>
                   {res.items.map((x, y) => (
                     <ListItem key={y}>
+                      <ListItemAvatar>
+                        <Avatar src={x.bestThumbnail.url || undefined} />
+                      </ListItemAvatar>
                       <ListItemText primary={x.title} />
                     </ListItem>
                   ))}
