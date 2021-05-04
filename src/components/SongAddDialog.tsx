@@ -18,8 +18,9 @@ import {
   Typography,
   ListItemAvatar,
   Avatar,
+  ListItemSecondaryAction,
 } from '@material-ui/core'
-import { Close, List, Search } from '@material-ui/icons'
+import { Add, Close, List, Search } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
 import { videoInfo } from 'ytdl-core'
 import { Result } from 'ytpl'
@@ -174,6 +175,11 @@ const SongAddDialog = () => {
                         <Avatar src={x.bestThumbnail.url || undefined} />
                       </ListItemAvatar>
                       <ListItemText primary={x.title} />
+                      <ListItemSecondaryAction>
+                        <IconButton>
+                          <Add />
+                        </IconButton>
+                      </ListItemSecondaryAction>
                     </ListItem>
                   ))}
                 </MUIList>
