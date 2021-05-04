@@ -212,7 +212,17 @@ const SongAddDialog = () => {
                     <ListItemText primary={x.title} />
                     <ListItemSecondaryAction>
                       <IconButton
-                        disabled={!!res.items.find((i) => x.id === i.id)}
+                        disabled={!!tracks.find((i) => x.id === i.id)}
+                        onClick={() => {
+                          let patched = [...tracks]
+                          patched.push({
+                            id: x.id,
+                            title: x.title,
+                            thumbnail: x.bestThumbnail.url,
+                            author: x.author.name,
+                          })
+                          setTracks(patched)
+                        }}
                       >
                         <Add />
                       </IconButton>
