@@ -32,7 +32,8 @@
     "utf-8-validate": "^5.0.4",
     "web-vitals": "^1.0.1",
     "ytdl-core": "^4.5.0",
-    "ytpl": "^2.2.0"
+    "ytpl": "^2.2.0",
+    "ytsr": "^3.5.0"
   },
   "scripts": {
     "react:start": "react-scripts start",
