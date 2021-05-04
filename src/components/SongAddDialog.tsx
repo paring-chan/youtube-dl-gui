@@ -151,11 +151,6 @@ const SongAddDialog = () => {
           )}
           {res && 'items' in res && (
             <Card variant='outlined'>
-              <CardMedia
-                component='img'
-                alt='thumbnail'
-                image={res.bestThumbnail.url || undefined}
-              />
               <CardContent
                 style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
               >
