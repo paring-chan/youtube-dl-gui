@@ -25,6 +25,7 @@ import { Alert } from '@material-ui/lab'
 import { videoInfo } from 'ytdl-core'
 import { Result } from 'ytpl'
 import { useSnackbar } from 'notistack'
+import { Result as YTSRResult } from 'ytsr'
 
 declare var utils: any
 
@@ -32,7 +33,14 @@ const SongAddDialog = () => {
   const [open, setOpen] = useRecoilState(addDialogOpen)
   const [search, setSearch] = React.useState('')
   const [alert, setAlert] = React.useState<null | string>(null)
-  const [res, setRes] = React.useState<videoInfo | Result | null>(null)
+  const [res, setRes] = React.useState<
+    | (
+        | (videoInfo & { type: 'video' })
+        | (Result & { type: 'playlist' })
+        | (YTSRResult & { type: 'search' })
+      )
+    | null
+  >(null)
   const [loading, setLoading] = React.useState(false)
   const [tracks, setTracks] = useRecoilState(tracksState)
   const { enqueueSnackbar } = useSnackbar()
@@ -46,10 +54,24 @@ const SongAddDialog = () => {
         const data = await utils.ytpl(search, {
           limit: Infinity,
         })
-        return setRes(data)
+        return setRes({
+          type: 'playlist',
+          ...data,
+        })
       } catch {
-        const data = await utils.ytdl.getInfo(search)
-        setRes(data)
+        try {
+          const data = await utils.ytdl.getInfo(search)
+          setRes({
+            type: 'video',
+            ...data,
+          })
+        } catch {
+          const data = (await utils.ytsr(search)) as YTSRResult
+          setRes({
+            type: 'search',
+            ...data,
+          })
+        }
       }
     } catch (e) {
       setAlert(e.message)
@@ -91,7 +113,7 @@ const SongAddDialog = () => {
           </IconButton>
         </div>
         <div style={{ marginTop: 5, marginBottom: 10 }}>
-          {res && 'videoDetails' in res && (
+          {res && res.type === 'video' && (
             <Card variant='outlined'>
               <CardMedia
                 component='img'
@@ -150,7 +172,7 @@ const SongAddDialog = () => {
               </CardContent>
             </Card>
           )}
-          {res && 'items' in res && (
+          {res && res.type === 'playlist' && (
             <Card variant='outlined'>
               <CardContent
                 style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
@@ -229,6 +251,76 @@ const SongAddDialog = () => {
                     </ListItemSecondaryAction>
                   </ListItem>
                 ))}
+              </MUIList>
+            </Card>
+          )}
+          {res && res.type === 'search' && (
+            <Card variant='outlined'>
+              <div
+                style={{
+                  padding: 4,
+                }}
+              >
+                <Button
+                  variant='outlined'
+                  color='primary'
+                  fullWidth
+                  onClick={() => {
+                    let patched = [...tracks]
+                    patched.push(
+                      ...res.items
+                        .filter((x) => x.type === 'video')
+                        .filter(
+                          (x: any) => !patched.find((y: any) => x.id === y.id)
+                        )
+                        .map((x: any) => ({
+                          id: x.id,
+                          title: x.title,
+                          thumbnail: x.bestThumbnail.url,
+                          author: x.author.name,
+                        }))
+                    )
+                    setTracks(patched)
+                    enqueueSnackbar(
+                      `영상 ${res.items.length}개가 추가되었습니다.`,
+                      {
+                        variant: 'success',
+                      }
+                    )
+                    setOpen(false)
+                  }}
+                >
+                  영상 {res.items.length}개 추가하기
+                </Button>
+              </div>
+              <MUIList>
+                {res.items
+                  .filter((x) => x.type === 'video')
+                  .map((x: any, y) => (
+                    <ListItem key={y}>
+                      <ListItemAvatar>
+                        <Avatar src={x.bestThumbnail.url || undefined} />
+                      </ListItemAvatar>
+                      <ListItemText primary={x.title} />
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          disabled={!!tracks.find((i) => x.id === i.id)}
+                          onClick={() => {
+                            let patched = [...tracks]
+                            patched.push({
+                              id: x.id,
+                              title: x.title,
+                              thumbnail: x.bestThumbnail.url,
+                              author: x.author.name,
+                            })
+                            setTracks(patched)
+                          }}
+                        >
+                          <Add />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
               </MUIList>
             </Card>
           )}
